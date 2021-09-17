@@ -9,8 +9,8 @@ class Variant:
         self.valid = False  # check if hgvs notation is valid
         self.hgvs_error = None  # check if mutation on gene exists
 
-        self.ac = None  # accession number from hgvs found in KB
-        self.posedit = None  # mutation from hgvs found in KB
+        self.ac = None  # transcript from hgvs found in KB
+        self.posedit = None  # description from hgvs found in KB
 
         self.entrezid = None  # Entrez Gene Id/Locus ID
 

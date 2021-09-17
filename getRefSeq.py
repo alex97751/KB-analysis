@@ -17,13 +17,13 @@ def connect(variant):
 def getRefSeqId(variant):
     if(variant.ac is not None):
         connect(variant)
-        ensembl_id = variant.ac.split(".")[0]  # drop version number
+        ensembl_id = variant.ac.split(".")[0]
         query = "SELECT xref.display_label FROM transcript, object_xref, xref,external_db WHERE transcript.transcript_id = object_xref.ensembl_id AND object_xref.ensembl_object_type = 'Transcript' AND object_xref.xref_id = xref.xref_id AND xref.external_db_id = external_db.external_db_id AND external_db.db_name = 'RefSeq_mRNA' AND transcript.stable_id ='" + ensembl_id + "';"
         variant.mycursor.execute(query)
         myresult = variant.mycursor.fetchall()
 
         for refseq in myresult:
-            variant.refseq.append(refseq[0]) # use all found refseq ids
+            variant.refseq.append(refseq[0])  # use all found refseq ids
 
     return
 

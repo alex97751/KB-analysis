@@ -61,4 +61,5 @@ def newVariant(ac, type, ref, alt, base):
     print("New variant: " + str(var_g))
     return var_g
 
+# DEBUG
 # setHGVS("ENST00000369535:c.182delAAinsTG")  # same as ENST00000369535:c.182AA>TG

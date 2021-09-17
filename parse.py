@@ -10,8 +10,7 @@ from variant import Variant
 
 def main():
     start = time.time()
-    # FUNCTION()
-    parse_civic_HGVS()
+    # INSERT FUNCTION
     end = time.time()
 
     print("Duration: " + str(end - start) + "s ")
@@ -62,32 +61,10 @@ def parse_cosmic_DB():
             progressBar(count, chunksize)
         # break  # DEBUG stop after first chunk
 
-# Count how many entries have SNP=Y in file
-def count_cosmic_IDs():
-    chunksize = 10 ** 6
-    file_input = pd.read_csv('/Users/alexharrisson/Documents/Uni/BA/KB/cosmic/CosmicMutantExport.tsv', sep='\t', header=0, chunksize=chunksize)
-
-    count = 0
-    found = 0
-
-    for chunk in file_input:
-        for row in chunk.itertuples():
-            count += 1
-
-            if row[28] == "y":
-                found += 1
-
-            # print(output)
-        # break
-        print(chunk.index)
-    print(str(found) + "/" + str(count))  # DEBUG stop after first chunk
 
 # FINISHED
 def parse_oncokb_DB(): # uses ENTREZ ID not refseq or ENS
-    print("start")
     file_input = pd.read_csv('/Users/alexharrisson/Documents/Uni/BA/KB/oncokb/allAnnotatedVariants.txt', sep='\t', header=0, error_bad_lines=False)
-
-    print("DONE READIN")
 
     file_output = open("../output/oncokb_rsid_DB.tsv", "w")
     file_output.write("# \t Found \t Mutation \t Entrez ID \t RSID \n")
@@ -127,8 +104,6 @@ def parse_civic_DB():
     count = 0
     found = 0
 
-    print("PARSE CIVIC")
-
     dbSNP = connect_dbSNP()  # connect to local dbSNP postgres DB
     for row in file_input.itertuples():
         count += 1
@@ -162,6 +137,8 @@ def parse_civic_DB():
         # print("%0.2f" % (count/len(file_input.index) * 100) + " ", end='', flush=True)
         progressBar(count, len(file_input.index))
 
+
+# ANALYSE HGVS IN CIVIC
 def parse_civic_HGVS():
     file_input = pd.read_csv('/Users/alexharrisson/Documents/Uni/BA/KB/civic/nightly-VariantSummaries.tsv', sep='\t', header=0, error_bad_lines=False)
 
@@ -175,7 +152,6 @@ def parse_civic_HGVS():
     count = 0
     refSeq = False
 
-    print("PARSE HGVS in CIVIC")
     for row in file_input.itertuples():
         variants += 1
 
@@ -209,6 +185,7 @@ def parse_civic_HGVS():
     print("total HGVS Strings: " + str(totalHGVSstrings))
     print("valid RefSeq Strings: " + str(totalRefSeqs))
     print("valid HGVS Strings: " + str(validHGVS))
+
 
 # FINISHED
 def parse_biomarkers_DB():
@@ -244,6 +221,7 @@ def parse_biomarkers_DB():
 
         #print("%0.2f" % (count/len(file_input.index) * 100) + " ", end='', flush=True)
         progressBar(count, len(file_input.index))
+
 
 # FINISHED
 def parse_docm_DB():
@@ -286,8 +264,8 @@ def parse_docm_DB():
     file_output.close()
 
 
+# sample
 def parse_dbNSFP4():
-    """Parse parse_dbNSFP4 using ENS API."""
     file_input = open("../variant_dbs_small/dbNSFP4.1a_variant.chr1.tsv")
     read_tsv = csv.reader(file_input, delimiter="\t")
     for row in read_tsv:
@@ -299,9 +277,8 @@ def parse_dbNSFP4():
         variant.rsid = getRSID(str(variant.ac) + ":" + str(variant.posedit))
         print(str(variant.ac) + ":" + str(variant.posedit) + " - " + str(variant.rsid))
 
-
+# relocate
 def parse_clinvar_DB():
-    """Parse clinVar KB from DB."""
     file_input = open("../variant_dbs_small/clinvar_variant_summary.txt")
     read_tsv = csv.reader(file_input, delimiter="\t")
     count = 0
@@ -324,9 +301,9 @@ def parse_clinvar_DB():
 
     file_input.close()
 
+
 # FINISHED
 def parse_docm_API():
-    """Parse docm KB. using ENS API"""
     file_input = pd.read_csv('/Users/alexharrisson/Documents/Uni/BA/KB/docm/variants.tsv', sep='\t', header=0)
     count = 0
     found = 0
@@ -356,7 +333,6 @@ def parse_docm_API():
 
 # FINISHED
 def parse_civic_API():
-    """Parse civic KB. using ENS API"""
     file_input = pd.read_csv('/Users/alexharrisson/Documents/Uni/BA/KB/civic/nightly-VariantSummaries.tsv', sep='\t', header=0, error_bad_lines=False)
 
     file_output = open("../output/civic_rsid_API.tsv", "w")
@@ -390,9 +366,8 @@ def parse_civic_API():
         # print("%0.2f" % (count/len(file_input.index) * 100) + " ", end='', flush=True)
         progressBar(count, len(file_input.index))
 
-
+#sample
 def parse_cosmic_API():
-    """Parse cosmic KB. using ENS API"""
     chunksize = 10 ** 3
     file_input = pd.read_csv('/Users/alexharrisson/Documents/Uni/BA/KB/cosmic/CosmicMutantExport.tsv', sep='\t', header=0, chunksize=chunksize)
 
@@ -427,8 +402,8 @@ def parse_cosmic_API():
     file_input.close()
 
 
+#sample
 def parse_clinvar_API():
-    """Parse clinVar KB. using ENS API"""
     file_input = open("../variant_dbs_small/clinvar_variant_summary.txt")
     read_tsv = csv.reader(file_input, delimiter="\t")
     count = 0
@@ -466,6 +441,7 @@ def parse_clinvar_API():
     file_input.close()
     print("different RSIDs: " + str(different_rsids) + " / " + str(count))
 
+
 # FINISHED
 def parse_biomarkers_API():
     file_input = pd.read_csv('/Users/alexharrisson/Documents/Uni/BA/KB/biomarkers/cgi_biomarkers_latest/cgi_biomarkers_per_variant.tsv', sep='\t', header=0)
@@ -494,7 +470,6 @@ def parse_biomarkers_API():
 
 # FINISHED
 def parse_oncokb_API(): # uses ENTREZ ID not refseq or ENS
-    print("start")
     file_input = pd.read_csv('/Users/alexharrisson/Documents/Uni/BA/KB/oncokb/allAnnotatedVariants.txt', sep='\t', header=0, error_bad_lines=False)
 
     file_output = open("../output/oncokb_rsid_API.tsv", "w")
@@ -522,6 +497,7 @@ def parse_oncokb_API(): # uses ENTREZ ID not refseq or ENS
 
         # print(output)
         progressBar(count, len(file_input.index))
+
 
 if __name__ == "__main__":
     main()

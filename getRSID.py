@@ -52,7 +52,7 @@ def getRSIDfromDB(cur, ac, posedit):
         return -1
 
 
-# Return RSID of a hgvs variant from local dbsnp DB using lous id not accession number.
+# Return RSID of a hgvs variant from local dbsnp DB using lous id not transcript.
 def getRSIDfromDB_using_locusID(cur, entrezid, posedit):
     query = "SELECT snp_id FROM hgvs WHERE hgvs='" + posedit + "' AND locus_id='" + entrezid + "';"
     cur.execute(query)
