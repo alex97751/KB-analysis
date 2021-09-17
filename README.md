@@ -8,7 +8,7 @@ Code by Alexander Harrisson. This was written for the Bachelor thesis
 
 Download the dbSNP DB as described in [SETH](https://rockt.github.io/SETH/). 
 Download the Ensembl Database as described [here](https://m.ensembl.org/info/docs/webcode/mirror/install/ensembl-data.html).
-Additionally the Ensembl DB for homo_sapiens_core_104_38 is being used as well.
+Additionally the Ensembl DB for homo_sapiens_core_75_37 is being used as well.
 After downloading and building these DBs, install the following Python packages:
 
 ```sh
