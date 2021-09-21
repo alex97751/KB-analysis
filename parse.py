@@ -25,6 +25,7 @@ def progressBar(current, total):
     print(' Progress: [%s%s] %.2f %%' % (arrow, spaces, percent), end='\r')
 
 
+# samples
 def parse_cosmic_DB():
     chunksize = 10 ** 3
     file_input = pd.read_csv('/Users/alexharrisson/Documents/Uni/BA/KB/cosmic/CosmicMutantExport.tsv', sep='\t', header=0, chunksize=chunksize)
@@ -277,7 +278,7 @@ def parse_dbNSFP4():
         variant.rsid = getRSID(str(variant.ac) + ":" + str(variant.posedit))
         print(str(variant.ac) + ":" + str(variant.posedit) + " - " + str(variant.rsid))
 
-# relocate
+# sample
 def parse_clinvar_DB():
     file_input = open("../variant_dbs_small/clinvar_variant_summary.txt")
     read_tsv = csv.reader(file_input, delimiter="\t")
