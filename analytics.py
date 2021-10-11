@@ -4,11 +4,14 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from matplotlib_venn import venn2, venn2_circles, venn3, venn3_circles
 
+# get unique RSIDs for each KB
+# get overlap of serveral KBs
+# print venn diagrams 
 
 def main():
     # variants in each kb
     biomarkers = 1442
-    civic = 3318
+    civic = 1493
     oncokb = 4915
     docm = 1365
     clinvar = 1867779
@@ -19,13 +22,13 @@ def main():
     # file = pd.read_csv('/Users/alexharrisson/Documents/uni/BA/output/docm_rsid_DB.tsv', dtype='unicode', sep='\t', header=0)
     # hashMapDocm_DB = getDict(file, 10)
     # file = pd.read_csv('/Users/alexharrisson/Documents/uni/BA/output/docm_rsid_API.tsv', dtype='unicode', sep='\t', header=0)
-    # hashMapDocm_API = getDict(file, 10)
+    # hashMapDocm_API = getDict(file, 4)
 
     # Biomarkers
     # file = pd.read_csv('/Users/alexharrisson/Documents/uni/BA/output/biomarkers_rsid_DB.tsv', dtype='unicode', sep='\t', header=0)
     # hashMapBM_DB = getDict(file, 10)
     # file = pd.read_csv('/Users/alexharrisson/Documents/uni/BA/output/biomarkers_rsid_API.tsv', dtype='unicode', sep='\t', header=0)
-    # hashMapBM_API = getDict(file, 5)
+    # hashMapBM_API = getDict(file, 4)
 
     # ClinVar
     # file = pd.read_csv('/Users/alexharrisson/Documents/uni/BA/output/clinvar_rsid.tsv', dtype='unicode', sep='\t', header=0)
@@ -49,22 +52,34 @@ def main():
     # file = pd.read_csv('/Users/alexharrisson/Desktop/cosmic_rsid_API.tsv', dtype='unicode', sep='\t', header=0)
     # hashMapCosmic_API = getDict(file, 4)
 
-    # dicts = [hashMapClinVar] # combine these into one file
+    dicts = [hashMapDocm_API, hashMapBM_API]  # combine these into one file
 
     # checkSimilarity(dicts)
     # combineBoth(dicts, "clinvar")
     # hashMapOverlap = getOverlapDict(dicts)
-    #overlap = getOverlapInt(hashMapOverlap, len(dicts))
+    # overlap = getOverlapInt(hashMapOverlap, len(dicts))
 
-    listOfKBs = ["docm", "oncokb", "biomarkers", "civic"]
-    lenOfKBs = [docm, oncokb, biomarkers, civic]
-    overlap = getOverlapDict(listOfKBs)
-    overlapInt = getOverlapInt(overlap, len(listOfKBs))
-
-    print(str(overlapInt) + "/" + str(len(overlap)) + " => " + str(overlapInt / (len(overlap)) * 100) + "%")
+    # listOfKBs = ["docm", "oncokb", "biomarkers", "civic"]
+    # lenOfKBs = [docm, oncokb, biomarkers, civic]
+    # overlap = getOverlapDict(listOfKBs)
+    # overlapInt = getOverlapInt(overlap, len(listOfKBs))
+    #
+    # print(str(overlapInt) + "/" + str(len(overlap)) + " => " + str(overlapInt / (len(overlap)) * 100) + "%")
 
     # printVenn2(listOfKBs, lenOfKBs, overlapInt)
     # printVenn2(listOfKBs, lenOfKBs, overlapInt)
+
+
+# incomplete!!
+def hgvsOverlap(dicts):
+    hashMapOverlap = {}
+    for i in dicts:
+        for j in i.items():
+            if(j[0] in hashMapOverlap):
+                hashMapOverlap[j[0]] += 1
+            else:
+                hashMapOverlap[j[0]] = 1
+    return len(hashMapOverlap)
 
 
 def printVenn2(listOfKBs, lenOfKBs, overlapInt):
@@ -143,12 +158,13 @@ def combineBoth(dicts, kb):
 
     count = 0
     for i in hashMapOverlap.items():
-        count += 1;
+        count += 1
         output = (str(count) + "\t" + str(i[0]) + "\n")
         # print(output)
         file_output.write(output)
 
     return hashMapOverlap
+
 
 if __name__ == "__main__":
     main()

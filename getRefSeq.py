@@ -1,5 +1,6 @@
 import mysql.connector
 
+# connect to homo sapiens DB 37 or 38 to get a valid RefSeq ID
 
 # Connect to local mysql DB for ENS->RefSeq mapping.
 def connect(variant):
@@ -23,7 +24,7 @@ def getRefSeqId(variant):
         myresult = variant.mycursor.fetchall()
 
         for refseq in myresult:
-            variant.refseq.append(refseq[0])  # use all found refseq ids
+            variant.refseq.append(refseq[0])
 
     return
 

@@ -7,6 +7,7 @@ import hgvs.sequencevariant
 import hgvs.edit
 import hgvs.posedit
 
+# validate HGVS and parse variant
 
 def setHGVS(variant):
     try:
@@ -15,8 +16,6 @@ def setHGVS(variant):
         variant.posedit = v.type + "." + str(v.posedit)
         variant.hgvs_error = None
         variant.valid = validate(v, variant)
-        # t = parseVariant(variant)
-        # print(t.ac)
     except KeyboardInterrupt:
         print("Exiting.. \n")
         sys.exit(0)
@@ -60,6 +59,3 @@ def newVariant(ac, type, ref, alt, base):
 
     print("New variant: " + str(var_g))
     return var_g
-
-# DEBUG
-# setHGVS("ENST00000369535:c.182delAAinsTG")  # same as ENST00000369535:c.182AA>TG

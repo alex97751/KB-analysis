@@ -1,5 +1,6 @@
 import requests, sys, json, psycopg2, re
 
+# Get an RSID for a variants using the API or manual search
 
 # Return RSID of a hgvs variant from ensamble REST api.
 def getRSID(hgvs, assembly):
@@ -17,9 +18,8 @@ def getRSID(hgvs, assembly):
     else:
         decoded = r.json()
         try:
-            #print(decoded)
-            type = str(decoded)[3] # ugly work around
-            rsid = decoded[0][type]['id'][0]  # assuming rsid is at first position
+            type = str(decoded)[3]  # ugly work around
+            rsid = decoded[0][type]['id'][0]  # rsid is at first position
             if(rsid[0] == "r" and rsid[1] == "s"):
                 # print(rsid)
                 return str(re.findall(r'\d+', rsid)[0])
@@ -41,13 +41,13 @@ def connect_dbSNP():
 
 # Return RSID of a hgvs variant from local dbsnp DB.
 def getRSIDfromDB(cur, ac, posedit):
-    ac_without_version = ac.split(".")[0]  # TODO ??
+    ac_without_version = ac.split(".")[0]
     query = "SELECT snp_id FROM hgvs WHERE hgvs='" + posedit + "' AND refseq LIKE'" + ac_without_version + "%';"
     cur.execute(query)
     records = cur.fetchall()
 
     if records:
-        return records[0][0]  # return first found rsid
+        return records[0][0]
     else:
         return -1
 
@@ -59,7 +59,7 @@ def getRSIDfromDB_using_locusID(cur, entrezid, posedit):
     records = cur.fetchall()
 
     if records:
-        return records[0][0]  # return first found rsid
+        return records[0][0]
     else:
         return -1
 

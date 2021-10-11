@@ -6,20 +6,20 @@ class Variant:
     def __init__(self):
         """Initialize a new variant."""
         self.hgvs = None  # full hgvs notation
-        self.valid = False  # check if hgvs notation is valid
-        self.hgvs_error = None  # check if mutation on gene exists
+        self.valid = False  # check if hgvs notation is valid, UTA
+        self.hgvs_error = None  # check if mutation on gene exists, UTA
 
-        self.ac = None  # transcript from hgvs found in KB
-        self.posedit = None  # description from hgvs found in KB
+        self.ac = None  # transcript
+        self.posedit = None  # mutation
 
         self.entrezid = None  # Entrez Gene Id/Locus ID
 
-        self.assembly = None  # assebly (eg. 37 or 38)
+        self.assembly = None  # assembly (e.g. 37 or 38)
 
         self.refseq = list()  # RefSeq ID
         self.ens = None  # Ensemble ID
 
-        self.rsid = -1  # dbSNP ID if found (in KB)
+        self.rsid = -1  # dbSNP ID if found
 
         self.mydb = None  # Used for mapping ens->refseq
         self.mycursor = None  # Used for mapping ens->refseq
